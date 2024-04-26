@@ -5,10 +5,26 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
+import { getAllCustomers } from './api/customer-service';
+import { ICustomer } from './types/customer';
 
-function App(): React.JSX.Element {
+function App() {
+
+  const [customers, setCustomers] = useState<ICustomer[]>([]);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      const customersRequest = await getAllCustomers();
+      setCustomers(customersRequest);
+    };
+
+    fetchCustomers();
+  }, []);
+
+  console.log(customers);
+
   return (
     <SafeAreaView>
       <Text style={styles.textMain}>Lista de clientes</Text>

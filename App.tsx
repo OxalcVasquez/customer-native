@@ -6,9 +6,10 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
 import { getAllCustomers } from './api/customer-service';
 import { ICustomer } from './types/customer';
+import CustomerCard from './components/CustomerCard';
 
 function App() {
 
@@ -28,6 +29,11 @@ function App() {
   return (
     <SafeAreaView>
       <Text style={styles.textMain}>Lista de clientes</Text>
+      <ScrollView>
+        {customers.map(customer => (
+          <CustomerCard key={customer.id} customer={customer} />
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 }

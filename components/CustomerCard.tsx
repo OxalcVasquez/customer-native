@@ -1,61 +1,48 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Button, Colors, Card} from 'react-native-ui-lib';
 import { ICustomer } from '../types/customer';
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    margin: 10,
-    backgroundColor: '#f8f8f8',
-    borderRadius: 5,
-  },
-  name: {
-    fontSize: 20,
-    color: '#333',
-  },
-  email: {
-    fontSize: 16,
-    color: '#999',
-  },
-  phone: {
-    fontSize: 14,
-    color: '#bbb',
-  },
-  status: {
-    fontSize: 12,
-    color: '#ddd',
-  },
-  type: {
-    fontSize: 12,
-    color: '#ddd',
-  },
-});
 
 interface CustomerCardProps {
-  customer: ICustomer
+  customer: ICustomer,
+  onDelete:(id: number) => void
 }
 
-export const CustomerCard: React.FC<CustomerCardProps> = ({customer}) => {
-
+export const CustomerCard: React.FC<CustomerCardProps> = ({
+  customer,
+  onDelete,
+}) => {
   const handleDeleteCustomer = () => {
-    // tu lógica de eliminación aquí
+    onDelete(customer.id);
   };
 
   return (
-    <View style={styles.container} key={customer.id}>
-      <Text style={styles.name}>
-        {customer.name} {customer.last_name}
-      </Text>
-      <Text style={styles.email}>{customer.email}</Text>
-      <Text style={styles.phone}>{customer.phone}</Text>
-      <Text style={styles.status}>{customer.status}</Text>
-      <Text style={styles.type}>{customer.type.type}</Text>
-      <View>
-        <TouchableOpacity onPress={handleDeleteCustomer}>
-          Delete
-        </TouchableOpacity>
+    <Card flex-1 row spread margin-10 padding-10 key={customer.id}>
+      <View flex-1>
+        <Text text60 color={Colors.blue50}>
+          {customer.name} {customer.last_name}
+        </Text>
+        <Text color={Colors.grey30} text70BO>{customer.email}</Text>
+        <Text color={Colors.grey40} text80>{customer.phone}</Text>
+        <Text>{customer.status}</Text>
+        <Text>{customer.type.type}</Text>
       </View>
-    </View>
+      <View>
+        <Button
+          marginB-10
+          label="Editar"
+          backgroundColor={Colors.$outlineWarning}
+          borderRadius={10}
+          onPress={handleDeleteCustomer}
+        />
+        <Button
+          label="Eliminar"
+          backgroundColor={Colors.red30}
+          borderRadius={10}
+          onPress={handleDeleteCustomer}
+        />
+      </View>
+    </Card>
   );
 };
 export default CustomerCard;

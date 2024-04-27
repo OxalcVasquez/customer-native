@@ -6,10 +6,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
-import { getAllCustomers } from './api/customer-service';
+import {SafeAreaView, ScrollView} from 'react-native';
+import { deleteCustomer, getAllCustomers } from './api/customer-service';
 import { ICustomer } from './types/customer';
 import CustomerCard from './components/CustomerCard';
+import { Button, Colors, Text, View } from 'react-native-ui-lib';
 
 function App() {
 
@@ -26,23 +27,34 @@ function App() {
 
   console.log(customers);
 
+  const handleDeleteCustomer = async (id: number) => {
+    await deleteCustomer(id);
+    setCustomers(customers.filter(customer => customer.id !== id));
+  };
+
   return (
     <SafeAreaView>
-      <Text style={styles.textMain}>Lista de clientes</Text>
+        <Text text40 center marginT-10>
+          Gestión de clientes
+        </Text>
+        <Button
+          margin-10
+          label="Agregar nuevo cliente"
+          backgroundColor={Colors.green10}
+          borderRadius={10}
+        />
       <ScrollView>
         {customers.map(customer => (
-          <CustomerCard key={customer.id} customer={customer} />
+          <CustomerCard
+            key={customer.id}
+            customer={customer}
+            onDelete={handleDeleteCustomer}
+          />
         ))}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  textMain: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 
 export default App;

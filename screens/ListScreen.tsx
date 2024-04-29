@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, ScrollView} from 'react-native';
 import {deleteCustomer, getAllCustomers} from '../api/customer-service';
 import {ICustomer} from '../types/customer';
 import CustomerCard from '../components/CustomerCard';
 import { IType } from '../types/type';
 import { getAllTypes } from '../api/type-service';
+import { useFocusEffect } from '@react-navigation/native';
 
 function ListScreen() {
   const [customers, setCustomers] = useState<ICustomer[]>([]);
@@ -15,17 +16,18 @@ function ListScreen() {
        setCustomers(customersRequest);
   };
 
-  useEffect(() => {
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCustomers();
+      const fetchTypes = async () => {
+        const typesRequest = await getAllTypes();
+        setTypes(typesRequest);
+      };
 
-    fetchCustomers();
-  const fetchTypes = async () => {
-  const typesRequest = await getAllTypes();
-    setTypes(typesRequest);
-  };
-
-  fetchTypes();
-   fetchCustomers();
-  }, []);
+      fetchTypes();
+      fetchCustomers();
+    }, []),
+  );
 
   console.log(customers);
 

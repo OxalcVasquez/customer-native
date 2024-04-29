@@ -26,7 +26,7 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
    const [apellidos, setApellidos] = useState(customer.last_name);
    const [correo, setCorreo] = useState(customer.email);
    const [telefono, setTelefono] = useState(customer.phone);
-   const [tipoCliente, setTipoCliente] = useState({id: 0, type: ''});
+   const [tipoCliente, setTipoCliente] = useState({id: 1, type: ''});
 
 
    const [estado, setEstado] = useState(customer.status);

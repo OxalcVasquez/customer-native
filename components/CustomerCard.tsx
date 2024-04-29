@@ -137,18 +137,22 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
         <Text>{customer.status}</Text>
         <Text>{customer.type.type}</Text>
       </View>
-      <View>
+      <View center>
         <Button
           marginB-10
+          medium
           label="Editar"
           backgroundColor={Colors.green30}
           borderRadius={10}
           onPress={handleOpenModal}
+          style={styles.button} // Ajusta estos valores según tus necesidades
         />
         <Button
+          medium
           label="Eliminar"
           backgroundColor={Colors.red30}
           borderRadius={10}
+          style={styles.button} // Ajusta estos valores según tus necesidades
           onPress={handleDeleteCustomer}
         />
       </View>
@@ -168,6 +172,9 @@ const styles = StyleSheet.create({
   },
   text: {
     alignItems: 'center',
+  },
+  button:{
+    width:120 ,
   },
 });
 

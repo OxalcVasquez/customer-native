@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './screens/HomeScreen';
 import ListScren from './screens/ListScreen';
 import { Colors } from 'react-native-ui-lib';
+import Icon from 'react-native-vector-icons/Feather';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,10 +17,23 @@ function MyTabs(){
       initialRouteName="Inicio"
       screenOptions={{tabBarActiveTintColor: Colors.purple30}}>
       <Tab.Screen
-        name="Home"
+        name="Inicio"
         component={HomeScreen}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Icon name="home" color={color} size={size} />
+          ),
+        }}
       />
-      <Tab.Screen name="Clientes" component={ListScren} />
+      <Tab.Screen
+        name="Clientes"
+        component={ListScren}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Icon name="list" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }

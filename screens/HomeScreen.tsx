@@ -80,7 +80,7 @@ const HomeScreen = () => {
           style={styles.input}
         />
         <Picker
-          selectedValue={tipoCliente}
+          selectedValue={tipoCliente.id}
           onValueChange={(itemValue, itemIndex) => {
             const selectedType = types[itemIndex];
             setTipoCliente({id: selectedType.id, type: selectedType.type});
@@ -89,6 +89,7 @@ const HomeScreen = () => {
             <Picker.Item key={type.id} label={type.type} value={type.id} />
           ))}
         </Picker>
+
         <View row padding-10 style={styles.text}>
           <Text>Estado</Text>
           <CheckBox

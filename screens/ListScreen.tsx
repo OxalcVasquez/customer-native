@@ -3,25 +3,41 @@ import {SafeAreaView, ScrollView} from 'react-native';
 import {deleteCustomer, getAllCustomers} from '../api/customer-service';
 import {ICustomer} from '../types/customer';
 import CustomerCard from '../components/CustomerCard';
+import { IType } from '../types/type';
+import { getAllTypes } from '../api/type-service';
 
 function ListScreen() {
   const [customers, setCustomers] = useState<ICustomer[]>([]);
+  const [types, setTypes] = useState<IType[]>([]);
+
+  const fetchCustomers = async () => {
+       const customersRequest = await getAllCustomers();
+       setCustomers(customersRequest);
+  };
 
   useEffect(() => {
-    const fetchCustomers = async () => {
-      const customersRequest = await getAllCustomers();
-      setCustomers(customersRequest);
-    };
 
     fetchCustomers();
+  const fetchTypes = async () => {
+  const typesRequest = await getAllTypes();
+    setTypes(typesRequest);
+  };
+
+  fetchTypes();
+   fetchCustomers();
   }, []);
 
   console.log(customers);
 
   const handleDeleteCustomer = async (id: number) => {
     await deleteCustomer(id);
-    setCustomers(customers.filter(customer => customer.id !== id));
+    fetchCustomers();
+
   };
+
+   const handleUpdateCustomer = async () => {
+     fetchCustomers();
+   };
 
   return (
     <SafeAreaView>
@@ -31,6 +47,8 @@ function ListScreen() {
             key={customer.id}
             customer={customer}
             onDelete={handleDeleteCustomer}
+            onUpdate={handleUpdateCustomer}
+            types={types}
           />
         ))}
       </ScrollView>

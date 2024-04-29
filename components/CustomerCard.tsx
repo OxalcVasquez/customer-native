@@ -3,33 +3,52 @@ import {View, Text, Button, Colors, Card, Modal} from 'react-native-ui-lib';
 import { ICustomer } from '../types/customer';
 import { StyleSheet, TextInput  } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import { updateCustomer } from '../api/customer-service';
+import { IType } from '../types/type';
+import { Picker } from '@react-native-picker/picker';
 
 
 interface CustomerCardProps {
-  customer: ICustomer,
-  onDelete:(id: number) => void
+  customer: ICustomer;
+  onDelete: (id: number) => void;
+  onUpdate: () => void;
+  types: IType[];
 }
 
 export const CustomerCard: React.FC<CustomerCardProps> = ({
   customer,
   onDelete,
+  onUpdate,
+  types,
 }) => {
 
    const [nombres, setNombres] = useState(customer.name);
    const [apellidos, setApellidos] = useState(customer.last_name);
    const [correo, setCorreo] = useState(customer.email);
    const [telefono, setTelefono] = useState(customer.phone);
-   //const [tipoCliente, setTipoCliente] = useState({id: 0, type: ''});
-   //const [types, setTypes] = useState<IType[]>([]);
+   const [tipoCliente, setTipoCliente] = useState({id: 0, type: ''});
+
+
    const [estado, setEstado] = useState(customer.status);
 
-  const [openEditModal,setOpenEditModal] = useState(false);
+   const [openEditModal,setOpenEditModal] = useState(false);
 
   const handleDeleteCustomer = () => {
     onDelete(customer.id);
   };
-  const handleUpdateCustomer = () => {
+  const handleUpdateCustomer =  async () => {
+     await updateCustomer({
+       id: customer.id,
+       name: nombres,
+       last_name: apellidos,
+       email: correo,
+       phone: telefono,
+       status: estado,
+       type_id: tipoCliente.id,
+     });
+     onUpdate();
     setOpenEditModal(false);
+
   };
 
   const handleOpenModal = () => {
@@ -68,6 +87,16 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
             placeholder="Telefono"
             style={styles.input}
           />
+          <Picker
+            selectedValue={tipoCliente.id}
+            onValueChange={(itemValue, itemIndex) => {
+              const selectedType = types[itemIndex];
+              setTipoCliente({id: selectedType.id, type: selectedType.type});
+            }}>
+            {types.map(type => (
+              <Picker.Item key={type.id} label={type.type} value={type.id} />
+            ))}
+          </Picker>
 
           <View row padding-10 style={styles.text}>
             <Text>Estado</Text>
@@ -90,13 +119,13 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
               label="Actualizar"
               backgroundColor={Colors.purple30}
               borderRadius={10}
-              onPress={handleOpenModal}
+              onPress={handleUpdateCustomer}
             />
           </View>
         </Card>
       </Modal>
       <View flex-1>
-        <Text text60 color={Colors.blue50}>
+        <Text text60 color={Colors.purple30}>
           {customer.name} {customer.last_name}
         </Text>
         <Text color={Colors.grey30} text70BO>
@@ -112,7 +141,7 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
         <Button
           marginB-10
           label="Editar"
-          backgroundColor={Colors.$outlineWarning}
+          backgroundColor={Colors.green30}
           borderRadius={10}
           onPress={handleOpenModal}
         />

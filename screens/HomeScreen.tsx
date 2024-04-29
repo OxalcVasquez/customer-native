@@ -6,6 +6,7 @@ import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
 import { IType } from '../types/type';
 import { getAllTypes } from '../api/type-service';
+import { createCustomer } from '../api/customer-service';
 
 const HomeScreen = () => {
     const [nombres, setNombres] = useState('');
@@ -15,6 +16,31 @@ const HomeScreen = () => {
     const [tipoCliente, setTipoCliente] = useState({id: 0, type: ''});
     const [types, setTypes] = useState<IType[]>([]);
     const [estado, setEstado] = useState(true);
+
+     const handleCreateCustomer = async () => {
+         const newCustomer = await createCustomer({
+            name: nombres,
+            last_name: apellidos,
+            email: correo,
+            phone: telefono,
+            status: estado,
+            type_id: tipoCliente.id,
+          });
+          console.log(newCustomer);
+          clearFields();
+     };
+
+               console.log(tipoCliente.id);
+
+
+      const clearFields = () => {
+        setNombres('');
+        setApellidos('');
+        setCorreo('');
+        setTelefono('');
+        setEstado(true);
+        setTipoCliente({id: 0, type: ''});
+      };
 
     useEffect(() => {
         const fetchTypes = async () => {
@@ -55,7 +81,10 @@ const HomeScreen = () => {
         />
         <Picker
           selectedValue={tipoCliente}
-          onValueChange={(type) => setTipoCliente(type)}>
+          onValueChange={(itemValue, itemIndex) => {
+            const selectedType = types[itemIndex];
+            setTipoCliente({id: selectedType.id, type: selectedType.type});
+          }}>
           {types.map(type => (
             <Picker.Item key={type.id} label={type.type} value={type.id} />
           ))}
@@ -73,6 +102,7 @@ const HomeScreen = () => {
           label="Agregar cliente"
           backgroundColor={Colors.purple30}
           borderRadius={10}
+          onPress={handleCreateCustomer}
         />
       </Card>
     </SafeAreaView>

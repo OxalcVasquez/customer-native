@@ -3,7 +3,6 @@ import {SafeAreaView, ScrollView} from 'react-native';
 import {deleteCustomer, getAllCustomers} from '../api/customer-service';
 import {ICustomer} from '../types/customer';
 import CustomerCard from '../components/CustomerCard';
-import {Button, Colors, Text} from 'react-native-ui-lib';
 
 function ListScreen() {
   const [customers, setCustomers] = useState<ICustomer[]>([]);
@@ -26,15 +25,6 @@ function ListScreen() {
 
   return (
     <SafeAreaView>
-      <Text text40 center marginT-10>
-        Gestión de clientes
-      </Text>
-      <Button
-        margin-10
-        label="Agregar nuevo cliente"
-        backgroundColor={Colors.green10}
-        borderRadius={10}
-      />
       <ScrollView>
         {customers.map(customer => (
           <CustomerCard

@@ -9,13 +9,17 @@ import { Colors } from 'react-native-ui-lib';
 
 const Tab = createBottomTabNavigator();
 
+
 function MyTabs(){
   return (
-    <Tab.Navigator initialRouteName="Home" screenOptions={
-      {tabBarActiveTintColor: Colors.purple50}
-    }>
-      <Tab.Screen name="Home" component={HomeScreen} options={{}}/>
-      <Tab.Screen name="Customers" component={ListScren}/>
+    <Tab.Navigator
+      initialRouteName="Inicio"
+      screenOptions={{tabBarActiveTintColor: Colors.purple30}}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+      />
+      <Tab.Screen name="Clientes" component={ListScren} />
     </Tab.Navigator>
   );
 }

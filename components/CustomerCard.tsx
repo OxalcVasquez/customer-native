@@ -134,8 +134,18 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
         <Text color={Colors.grey40} text80>
           {customer.phone}
         </Text>
-        <Text>{customer.status}</Text>
-        <Text>{customer.type.type}</Text>
+
+        {customer.status ? (
+          <Text color={Colors.green30}>Activo</Text>
+        ) : (
+          <Text color={Colors.red30}>Inactivo</Text>
+        )}
+
+        {customer.type.type === 'PREMIUN' ? (
+          <Text color={Colors.blue30}>{customer.type.type}</Text>
+        ) : (
+          <Text color={Colors.grey30}>{customer.type.type}</Text>
+        )}
       </View>
       <View center>
         <Button

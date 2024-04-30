@@ -6,6 +6,7 @@ import CustomerCard from '../components/CustomerCard';
 import { IType } from '../types/type';
 import { getAllTypes } from '../api/type-service';
 import { useFocusEffect } from '@react-navigation/native';
+import { showToast } from '../utils/toasts-utils';
 
 function ListScreen() {
   const [customers, setCustomers] = useState<ICustomer[]>([]);
@@ -33,11 +34,13 @@ function ListScreen() {
 
   const handleDeleteCustomer = async (id: number) => {
     await deleteCustomer(id);
+    showToast('Cliente eliminado', 'error');
     fetchCustomers();
 
   };
 
    const handleUpdateCustomer = async () => {
+    showToast('Cliente actualizado', 'info');
      fetchCustomers();
    };
 

@@ -7,7 +7,8 @@ import {Picker} from '@react-native-picker/picker';
 import { IType } from '../types/type';
 import { getAllTypes } from '../api/type-service';
 import { createCustomer } from '../api/customer-service';
-import { useNavigation } from '@react-navigation/native';
+//import { useNavigation } from '@react-navigation/native';
+import { showToast } from '../utils/toasts-utils';
 
 const HomeScreen = () => {
     const [nombres, setNombres] = useState('');
@@ -18,7 +19,7 @@ const HomeScreen = () => {
     const [types, setTypes] = useState<IType[]>([]);
     const [estado, setEstado] = useState(true);
 
-    const navigation = useNavigation();
+    //const navigation = useNavigation();
 
      const handleCreateCustomer = async () => {
          const newCustomer = await createCustomer({
@@ -31,7 +32,8 @@ const HomeScreen = () => {
           });
           console.log(newCustomer);
           clearFields();
-          navigation.navigate('Clientes');
+          showToast('Cliente creado','success');
+          //navigation.navigate('Clientes');
      };
 
                console.log(tipoCliente.id);

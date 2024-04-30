@@ -7,6 +7,7 @@ import { updateCustomer } from '../api/customer-service';
 import { IType } from '../types/type';
 import { Picker } from '@react-native-picker/picker';
 import { showToast } from '../utils/toasts-utils';
+import Toast from 'react-native-toast-message';
 
 
 interface CustomerCardProps {
@@ -48,6 +49,7 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
          status: estado,
          type_id: tipoCliente.id,
        });
+        showToast('Cliente actualizado', 'info');
          onUpdate();
         setOpenEditModal(false);
     } else {
@@ -133,6 +135,7 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
             />
           </View>
         </Card>
+        <Toast />
       </Modal>
       <View flex-1>
         <Text text60 color={Colors.purple30}>

@@ -1,12 +1,12 @@
 import React from 'react';
 import Navigation from './Navigation';
-import Toast from 'react-native-toast-message';
+import ToastProvider from 'react-native-toast-message';
 
 function App() {
   return (
     <>
       <Navigation />
-      <Toast position="bottom" bottomOffset={20} />
+      <ToastProvider position="bottom" bottomOffset={20} />
     </>
   );
 }

@@ -40,8 +40,8 @@ function ListScreen() {
   };
 
    const handleUpdateCustomer = async () => {
-    showToast('Cliente actualizado', 'info');
-     fetchCustomers();
+     await fetchCustomers();
+     showToast('Cliente actualizado', 'info');
    };
 
   return (

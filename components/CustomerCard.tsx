@@ -6,6 +6,7 @@ import CheckBox from '@react-native-community/checkbox';
 import { updateCustomer } from '../api/customer-service';
 import { IType } from '../types/type';
 import { Picker } from '@react-native-picker/picker';
+import { showToast } from '../utils/toasts-utils';
 
 
 interface CustomerCardProps {
@@ -37,19 +38,29 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
     onDelete(customer.id);
   };
   const handleUpdateCustomer =  async () => {
-     await updateCustomer({
-       id: customer.id,
-       name: nombres,
-       last_name: apellidos,
-       email: correo,
-       phone: telefono,
-       status: estado,
-       type_id: tipoCliente.id,
-     });
-     onUpdate();
-    setOpenEditModal(false);
+    if (validateFields()) {
+       await updateCustomer({
+         id: customer.id,
+         name: nombres,
+         last_name: apellidos,
+         email: correo,
+         phone: telefono,
+         status: estado,
+         type_id: tipoCliente.id,
+       });
+         onUpdate();
+        setOpenEditModal(false);
+    } else {
+      showToast('Por favor completar los campos obligatorios','error');
+    }
 
   };
+
+
+  const validateFields = () => {
+        return nombres !== '' && apellidos !== '' && correo !== '';
+  };
+
 
   const handleOpenModal = () => {
     setOpenEditModal(true);
@@ -97,7 +108,6 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
               <Picker.Item key={type.id} label={type.type} value={type.id} />
             ))}
           </Picker>
-
           <View row padding-10 style={styles.text}>
             <Text>Estado</Text>
             <CheckBox

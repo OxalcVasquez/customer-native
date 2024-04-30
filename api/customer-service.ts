@@ -19,7 +19,7 @@ export const createCustomer = async (customer: ICustomerCreate):Promise<ICustome
 
   const newCustomer = await res.json();
 
-  return newCustomer;
+  return newCustomer.data;
 };
 
 export const updateCustomer = async (customer: ICustomerUpdate):Promise<ICustomer>=> {

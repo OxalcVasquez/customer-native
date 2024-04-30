@@ -15,13 +15,15 @@ const HomeScreen = () => {
     const [apellidos, setApellidos] = useState('');
     const [correo, setCorreo] = useState('');
     const [telefono, setTelefono] = useState('');
-    const [tipoCliente, setTipoCliente] = useState({id: 0, type: ''});
+    const [tipoCliente, setTipoCliente] = useState({id: 1, type: ''});
     const [types, setTypes] = useState<IType[]>([]);
     const [estado, setEstado] = useState(true);
 
     //const navigation = useNavigation();
 
      const handleCreateCustomer = async () => {
+
+      if (validateFields()) {
          const newCustomer = await createCustomer({
             name: nombres,
             last_name: apellidos,
@@ -32,11 +34,20 @@ const HomeScreen = () => {
           });
           console.log(newCustomer);
           clearFields();
-          showToast('Cliente creado','success');
+          if (newCustomer === null){
+              showToast('Sucedio un error creando el cliente', 'error');
+          } else {
+             showToast('Cliente creado', 'success');
+          }
           //navigation.navigate('Clientes');
+      } else {
+          showToast('Por favor completar los campos obligatorios', 'error');
+      }
+
+
      };
 
-               console.log(tipoCliente.id);
+      console.log(tipoCliente.id);
 
 
       const clearFields = () => {
@@ -46,6 +57,10 @@ const HomeScreen = () => {
         setTelefono('');
         setEstado(true);
         setTipoCliente({id: 0, type: ''});
+      };
+
+      const validateFields = ()  => {
+        return nombres !== '' && apellidos !== '' && correo !== '';
       };
 
     useEffect(() => {

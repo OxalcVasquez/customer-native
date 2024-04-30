@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {Button, Card, Colors, Text, View} from 'react-native-ui-lib';
+import {Button, Card, Colors, Text, TextField, View} from 'react-native-ui-lib';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
 import { IType } from '../types/type';
@@ -59,29 +59,55 @@ const HomeScreen = () => {
     <SafeAreaView>
       <Card margin-10 padding-10>
         <Text>Registro de clientes</Text>
-        <TextInput
+        <TextField
+          showMandatoryIndication
+          floatingPlaceholder
           value={nombres}
+          style={styles.input}
+          validateOnBlur
           onChangeText={setNombres}
           placeholder="Nombres"
-          style={styles.input}
+          enableErrors
+          useCustomErrors
+          validate={['required', (value: string) => value.length > 2]}
+          validationMessage={['Nombre es requerido', 'Nombre es muy corto']}
+          floatingPlaceholderColor={Colors.purple30}
         />
-        <TextInput
+        <TextField
+          showMandatoryIndication
+          floatingPlaceholder
           value={apellidos}
           onChangeText={setApellidos}
           placeholder="Apellidos"
           style={styles.input}
+          validateOnBlur
+          enableErrors
+          useCustomErrors
+          validate={['required', (value: string) => value.length > 2]}
+          validationMessage={['Apellido es requerido', 'Apellido es muy corto']}
+          floatingPlaceholderColor={Colors.purple30}
         />
-        <TextInput
+        <TextField
+          showMandatoryIndication
+          floatingPlaceholder
           value={correo}
           onChangeText={setCorreo}
-          placeholder="Correo"
+          placeholder={'Correo'}
           style={styles.input}
+          validateOnBlur
+          enableErrors
+          useCustomErrors
+          validate={['required', 'email', (value: string) => value.length > 6]}
+          validationMessage={['Correo es requerido', 'Correo no es válido']}
+          floatingPlaceholderColor={Colors.purple30}
         />
-        <TextInput
+        <TextField
+          floatingPlaceholder
           value={telefono}
           onChangeText={setTelefono}
           placeholder="Telefono"
           style={styles.input}
+          floatingPlaceholderColor={Colors.purple30}
         />
         <Picker
           selectedValue={tipoCliente.id}
@@ -116,13 +142,13 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: 'white',
-    borderColor: Colors.purple30,
+   // height: 40,
+  //  margin: 12,
+  //  borderWidth: 1,
+  //  padding: 10,
+  //  borderRadius: 5,
+   // backgroundColor: 'white',
+   // borderColor: Colors.purple30,
   },
   text: {
     alignItems: 'center',
